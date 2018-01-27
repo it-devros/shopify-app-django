@@ -1,3 +1,7 @@
 Django==1.9
 python-dotenv==0.1.0
 ShopifyAPI
+gunicorn
+psycopg2==2.4.5
+dj-database-url
+APScheduler==3.0.0

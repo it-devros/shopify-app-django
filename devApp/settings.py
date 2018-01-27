@@ -1,6 +1,6 @@
 # Django settings for auth_demo project.
 import os
-
+import dj_database_url
 #import dotenv
 from django.conf import global_settings
 
@@ -20,23 +20,13 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(PROJECT_PATH, 'db.sqlite3'),
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-        'OPTIONS': {
-            'timeout': 20,
-        }
-    }
+    'default': dj_database_url.config(
+        default='postgres://lbnfjtiheeugsh:f9e880c368d93e0d6478e35f730d8c1fde3a97bc797106bfd02d55b6b6920036@ec2-54-163-237-249.compute-1.amazonaws.com:5432/d3dt7ldlrsevg')
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['deliverify1.herokuapp.com']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -74,7 +64,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.normpath(os.path.join(PROJECT_PATH, '../staticfiles'))
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -85,7 +75,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-     os.path.join(PROJECT_PATH,'main_app/static'), 
+     os.path.join(PROJECT_PATH,'../main_app/static'), 
 )
 
 # List of finder classes that know how to find static files in
@@ -200,7 +190,7 @@ LOGIN_URL = 'shopify_auth.views.login'
 # See https://github.com/theskumar/python-dotenv for more.
 
 # the settings for Shopify Embedded App.
-
+APP_DOMAIN = 'https://deliverify1.herokuapp.com'
 SHOPIFY_APP_NAME = 'devApp'
 SHOPIFY_APP_API_KEY = '4eec0a50a051b555c467111cc054de5b'
 SHOPIFY_APP_API_SECRET = 'b4dc3f238ffa73accf85370a960f8c71'

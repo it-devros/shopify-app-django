@@ -80,7 +80,7 @@
             
             if (window.localStorage.getItem("load_script") == "no") {
                 console.log(" +++++++++++++++++++++++ inrease api calls ++++++++++++++++");
-                api.ExecuteJSONP("https://1a9c4247.ngrok.io/app/get_settings", { shop : shop }, settingsLoaded);
+                api.ExecuteJSONP("https://deliverify1.herokuapp.com/app/get_settings", { shop : shop }, settingsLoaded);
 
             }
 
@@ -90,7 +90,7 @@
         
             //Build the script element
             var script = document.createElement("script");
-            script.src = "https://1a9c4247.ngrok.io/static/script/front.js";
+            script.src = "https://deliverify1.herokuapp.com/static/script/front.js";
             script.async = true;
             script.type = "text/javascript";
             

@@ -55,7 +55,7 @@ def home(request, *args, **kwargs):
 			webhook_shop.format = 'json'
 			webhook_shop.save()
 			
-		url = settings.DEV_DOMAIN + settings.STATIC_URL + 'script/script.js'    
+		url = settings.APP_DOMAIN + settings.STATIC_URL + 'script/script.js'    
 		shopify.ScriptTag(dict(event='onload', src=url)).save()
 
 
