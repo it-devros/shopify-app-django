@@ -67,23 +67,23 @@ def authenticate(request, *args, **kwargs):
 def finalize(request, *args, **kwargs):
 	shop = request.GET.get('shop')
 	shopify_session = {}
-	try:
-		current_shops = AuthShop.objects.filter(Q(shop_name=shop) | Q(token=kwargs.get('token'))).order_by('-id')
-		if not current_shops:
-			print('++++++++++++++++++ creating shop and access token ++++++++++++++++++')
-			shopify_session = shopify.Session(shop, token=kwargs.get('token'))
-			shopify_session.request_token(request.GET)
-			print(shopify_session.url)
-			current_shop = AuthShop(shop_name=shopify_session.url, token=shopify_session.token)
-			current_shop.save()
-		else:
-			print('++++++++++++++++++ reloading shop and access token ++++++++++++++++++')
-			print(current_shops[0].shop_name)
-			shopify_session = shopify.Session(current_shops[0].shop_name, token=current_shops[0].token)
-	except:
-		print('++++++++++++++++++ authentication error ++++++++++++++++++')
-		login_url = reverse('shopify_auth.views.login')
-		return HttpResponseRedirect(login_url)
+	# try:
+	current_shops = AuthShop.objects.filter(Q(shop_name=shop) | Q(token=kwargs.get('token'))).order_by('-id')
+	if not current_shops:
+		print('++++++++++++++++++ creating shop and access token ++++++++++++++++++')
+		shopify_session = shopify.Session(shop, token=kwargs.get('token'))
+		shopify_session.request_token(request.GET)
+		print(shopify_session.url)
+		current_shop = AuthShop(shop_name=shopify_session.url, token=shopify_session.token)
+		current_shop.save()
+	else:
+		print('++++++++++++++++++ reloading shop and access token ++++++++++++++++++')
+		print(current_shops[0].shop_name)
+		shopify_session = shopify.Session(current_shops[0].shop_name, token=current_shops[0].token)
+	# except:
+	# 	print('++++++++++++++++++ authentication error ++++++++++++++++++')
+	# 	login_url = reverse('shopify_auth.views.login')
+	# 	return HttpResponseRedirect(login_url)
 
 	# Attempt to authenticate the user and log them in.
 	user = auth.authenticate(myshopify_domain=shopify_session.url, token=shopify_session.token)
