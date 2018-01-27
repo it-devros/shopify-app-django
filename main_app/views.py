@@ -7,7 +7,7 @@ from django.http import JsonResponse, HttpResponse, HttpRequest
 from django.core.mail import EmailMessage
 from django.db.models import Q
 from django.utils.crypto import get_random_string
-from models import AuthAppShopUser, AuthShop, Times, TextConf
+from .models import AuthAppShopUser, AuthShop, Times, TextConf
 from devApp import settings
 from shopify_webhook.decorators import webhook
 import shopify
