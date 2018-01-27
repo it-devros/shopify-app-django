@@ -1,0 +1,284 @@
+{% extends "main_app/index.html" %}
+{% load static %}
+{% block content %}
+
+<main class="full-width">
+	<section>
+		<article class="full-width">
+			<h1 class="align-left">Customize Your Product Page With Timer</h1>
+		</article>
+	</section>
+	<section id="error_panel" class="m-section" style="display: none;">
+		<div class="alert danger full-width">
+			<dl>
+				<dt>Error !</dt>
+				<dd>
+					Some errors detected for you.<br>
+					Please check input values.
+				</dd>
+			</dl>
+		</div>
+	</section>
+	<!-- <section class="m-section">
+		<div class="alert success full-width">
+			<dl>
+				<dt>Thank you</dt>
+				<dd>This is the best way to be a top of shopify Embedded App Developers.</dd>
+			</dl>
+		</div>
+	</section> -->
+	<section>
+		<aside>
+			<h2>Your Timer Settings</h2>
+			<p>You have to set up the timer.</p>
+		</aside>
+		<article>
+			<div class="card has-sections">
+				<div class="card-section">
+					<h6>Current Timer</h6>
+					<h1><span id="current_days">00</span> D  <span id="current_hours">00</span> Hrs  <span id="current_mins">00</span> Mins  <span id="current_secs">00</span> Secs</h1>
+					<h6>Time Setting</h6>
+					<div class="full-width">
+						<div class="column two">
+							<h6>Days</h6>
+							<input type="text" id="days" placeholder="00" />
+							<br>
+						</div>
+						<div class="column two">
+							<h6>Hours</h6>
+							<input type="text" id="hours" placeholder="00" /><br>
+						</div>
+						<div class="column two">
+							<h6>Minutes</h6>
+							<input type="text" id="mins" placeholder="00" /><br>
+						</div>
+						<div class="column two">
+							<h6>Seconds</h6>
+							<input type="text" id="secs" placeholder="00" /><br>
+						</div>
+						<div class="column two">
+							<h6>&nbsp;</h6>
+							<button id="btn_save_time" class="button" style="margin-left: 30px;">Save Time</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</section>
+	<section>
+		<aside>
+			<h2>Your Text Settings</h2>
+			<p>You have to set up the text and configurations.</p>
+		</aside>
+		<article>
+			<div class="card has-sections">
+				<div class="card-section">
+					<h6>Text Content</h6>
+					<textarea id="content" placeholder="Please input the text to display in the product page.">{{ conf.content }}</textarea><br>
+					<h6>Font Color</h6>
+					<input id="font_color" type="text" placeholder="i.e: #95f31d" value="{{ conf.font_color }}" /><br>
+					<h6>Font Weight</h6>
+					<select id="font_weight" value="{{ conf.font_weight }}">
+						<option>normal</option>
+						<option>strong</option>
+					</select><br>
+					<h6>Font Size</h6>
+					<input id="font_size" type="text" placeholder="i.e: 24px" value="{{ conf.font_size }}" /><br>
+				</div>
+			</div>
+		</article>
+	</section>
+	<section>
+		<article class="full-width">
+			<div class="columns nine">
+			</div>
+			<div class="columns three">
+				<input type="button" class="button align-right" id="btn_save_text" value="Save" style="float: right; margin-left: 10px;">
+				<input type="reset" class="button secondary align-right" name="Reset" style="float: right;">
+			</div>
+		</article>
+	</section>
+
+</main>
+
+
+<script>
+	$(document).ready(function(){
+
+		var index_timer = 0;
+		var u = setInterval(function(){console.log("init interval");}, 50000);
+
+		{% if item %}
+			// Set the date we're counting down to
+			index_timer += 1;
+			var countDownDate = new Date().getTime();
+			var today = new Date();
+			today.setDate(today.getDate() + parseInt({{ item.days }}));
+			today.setTime(today.getTime() + (parseInt({{ item.hours }})*60*60*1000));
+			today.setTime(today.getTime() + (parseInt({{ item.mins }})*60*1000));
+			today.setTime(today.getTime() + (parseInt({{ item.secs }})*1000));
+
+			countDownDate = today.getTime();
+
+			// Update the count down every 1 second
+			var x = setInterval(function() {
+			    // Get todays date and time
+			    var now = new Date().getTime();
+			    // Find the distance between now an the count down date
+			    var distance = countDownDate - now;
+			    // Time calculations for days, hours, minutes and seconds
+			    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+			    // Output the result in an element with id="demo"
+				document.getElementById("current_days").innerHTML = days;
+				document.getElementById("current_hours").innerHTML = hours;
+				document.getElementById("current_mins").innerHTML = minutes;
+				document.getElementById("current_secs").innerHTML = seconds;
+			    // If the count down is over, write some text 
+			    if (index_timer == 60) {
+			    	saveCurrentTime(days, hours, minutes, seconds);
+			    	index_timer = 0;
+			    }
+			    if (distance <= 0) {
+			        clearInterval(x);
+			    }
+			}, 1000);
+		{% endif %}
+
+
+		$("#btn_save_time").on("click", function(){
+			var days = parseInt($("#days").val()) || 0;
+			var hours = parseInt($("#hours").val()) || 0;
+			var mins = parseInt($("#mins").val()) || 0;
+			var secs = parseInt($("#secs").val()) || 0;
+			if (days < 100 && hours < 61 && mins < 61 && secs < 61) {
+				$("#error_panel").css("display", "none");
+				var apiurl = "{% url 'saveTime' %}";
+				console.log(apiurl);
+				$.ajax({
+					url: apiurl,
+					method: "POST",
+					data: {
+						"days": days,
+						"hours": hours,
+						"mins": mins,
+						"secs": secs
+					},
+					success: function (res) {
+						{% if item %}
+							clearInterval(x);
+						{% endif %}
+						clearInterval(u);
+						alert("saving timer success");
+						var today = new Date();
+						today.setDate(today.getDate() + days);
+						today.setTime(today.getTime() + (hours*60*60*1000));
+						today.setTime(today.getTime() + (mins*60*1000));
+						today.setTime(today.getTime() + (secs*1000));
+
+						var index_timer = 0;
+
+						u = setInterval(function() {
+							index_timer += 1;
+						    // Get todays date and time
+						    var now = new Date().getTime();
+						    // Find the distance between now an the count down date
+						    var distance = today - now;
+						    // Time calculations for days, hours, minutes and seconds
+						    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+						    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+						    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+						    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+						    // Output the result in an element with id="demo"
+							document.getElementById("current_days").innerHTML = days;
+							document.getElementById("current_hours").innerHTML = hours;
+							document.getElementById("current_mins").innerHTML = minutes;
+							document.getElementById("current_secs").innerHTML = seconds;
+						    // If the count down is over, write some text 
+
+						    if (index_timer == 60) {
+						    	saveCurrentTime(days, hours, minutes, seconds);
+						    	index_timer = 0;
+						    }
+
+						    if (distance <= 0) {
+						        clearInterval(u);
+						    }
+						}, 1000);
+
+
+					},
+					error: function (err) {
+
+					}
+				});
+			} else {
+				$("#error_panel").css("display", "block");
+			}
+		});
+
+
+		$("#btn_save_text").on("click", function(){
+
+			var content = $("#content").val() || "Please order it rapidly. A little products left.";
+			var font_color = $("#font_color").val() || "#234545";
+			var font_weight = $("#font_weight").val() || "strong";
+			var font_size = $("#font_size").val() || "24px";
+
+			var apiurl = "{% url 'saveConf' %}";
+			$.ajax({
+				url: apiurl,
+				method: "POST",
+				data: {
+					"content": content,
+					"font_color": font_color,
+					"font_weight": font_weight,
+					"font_size": font_size
+				},
+				success: function (res) {
+					console.log("+++++++++++++++++++++ saved current config +++++++++++++++++++");
+					alert("saving conf success");
+				},
+				error: function (err) {
+
+				}
+			});
+
+		});
+
+
+		var saveCurrentTime = function(days, hours, mins, secs) {
+			var apiurl = "{% url 'saveTime' %}";
+			$.ajax({
+				url: apiurl,
+				method: "POST",
+				data: {
+					"days": days,
+					"hours": hours,
+					"mins": mins,
+					"secs": secs
+				},
+				success: function (res) {
+					console.log("+++++++++++++++++++++ saved current time +++++++++++++++++++");
+				},
+				error: function (err) {
+
+				}
+			});
+
+			return ;
+
+		}
+
+
+
+	});
+		
+
+</script>
+
+
+{% endblock %}
+
