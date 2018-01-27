@@ -19,10 +19,10 @@ def login(request, *args, **kwargs):
 	# The `shop` parameter may be passed either directly in query parameters, or
 	# as a result of submitting the login form.
 	shop = request.POST.get('shop', request.GET.get('shop'))
-	print '++++++++++++++++++++ it is login ++++++++++++++++++'
+	print('++++++++++++++++++++ it is login ++++++++++++++++++')
 	# If the shop parameter has already been provided, attempt to authenticate immediately.
 	if shop:
-		print '++++++++++++++++ authenticate +++++++++++++++++'
+		print('++++++++++++++++ authenticate +++++++++++++++++')
 		return authenticate(request, *args, **kwargs)
 
 	return render(request, "shopify_auth/login.html", {
@@ -70,18 +70,18 @@ def finalize(request, *args, **kwargs):
 	try:
 		current_shops = AuthShop.objects.filter(Q(shop_name=shop) | Q(token=kwargs.get('token'))).order_by('-id')
 		if not current_shops:
-			print '++++++++++++++++++ creating shop and access token ++++++++++++++++++'
+			print('++++++++++++++++++ creating shop and access token ++++++++++++++++++')
 			shopify_session = shopify.Session(shop, token=kwargs.get('token'))
 			shopify_session.request_token(request.GET)
-			print shopify_session.url
+			print(shopify_session.url)
 			current_shop = AuthShop(shop_name=shopify_session.url, token=shopify_session.token)
 			current_shop.save()
 		else:
-			print '++++++++++++++++++ reloading shop and access token ++++++++++++++++++'
-			print current_shops[0].shop_name
+			print('++++++++++++++++++ reloading shop and access token ++++++++++++++++++')
+			print(current_shops[0].shop_name)
 			shopify_session = shopify.Session(current_shops[0].shop_name, token=current_shops[0].token)
 	except:
-		print '++++++++++++++++++ authentication error ++++++++++++++++++'
+		print('++++++++++++++++++ authentication error ++++++++++++++++++')
 		login_url = reverse('shopify_auth.views.login')
 		return HttpResponseRedirect(login_url)
 

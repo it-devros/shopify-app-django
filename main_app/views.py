@@ -17,10 +17,10 @@ import json
 @csrf_exempt
 @webhook
 def uninstall_webhook_callback(request):
-	print '++++++++++++++++++ deleting webhook ++++++++++++++++++'
+	print('++++++++++++++++++ deleting webhook ++++++++++++++++++')
 	webhook_data = request.webhook_data
-	print webhook_data['domain']
-	print request.webhook_domain
+	print(webhook_data['domain'])
+	print(request.webhook_domain)
 	try:
 		user = AuthAppShopUser.objects.filter(myshopify_domain=request.webhook_domain).order_by('-id')[0]
 		user.delete()
@@ -38,7 +38,7 @@ def uninstall_webhook_callback(request):
 @login_required
 def home(request, *args, **kwargs):
 	shop_name = request.user.myshopify_domain
-	print '++++++++++++++++++ activating webhook ++++++++++++++++++'
+	print('++++++++++++++++++ activating webhook ++++++++++++++++++')
 	webhook_shop_address = settings.DEV_DOMAIN + '/app/uninstall_webhook_callback/'
 	with request.user.session:
 		webhook_status = 0
@@ -48,7 +48,7 @@ def home(request, *args, **kwargs):
 				if webhook_shop.address == webhook_shop_address:
 					webhook_status = 1
 		if webhook_status == 0:
-			print '++++++++++++++++++ saving webhook ++++++++++++++++++'
+			print('++++++++++++++++++ saving webhook ++++++++++++++++++')
 			webhook_shop = shopify.Webhook()
 			webhook_shop.topic = 'app/uninstalled'
 			webhook_shop.address = webhook_shop_address
