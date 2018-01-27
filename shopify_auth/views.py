@@ -68,8 +68,9 @@ def finalize(request, *args, **kwargs):
 	shop = request.GET.get('shop')
 	shopify_session = {}
 	try:
+		current_shops = []
 		current_shops = AuthShop.objects.filter(Q(shop_name=shop) | Q(token=kwargs.get('token'))).order_by('-id')
-		if current_shops == []:
+		if not current_shops:
 			print('++++++++++++++++++ creating shop and access token ++++++++++++++++++')
 			shopify_session = shopify.Session(shop, token=kwargs.get('token'))
 			shopify_session.request_token(request.GET)
