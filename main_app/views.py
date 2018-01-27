@@ -39,7 +39,7 @@ def uninstall_webhook_callback(request):
 def home(request, *args, **kwargs):
 	shop_name = request.user.myshopify_domain
 	print('++++++++++++++++++ activating webhook ++++++++++++++++++')
-	webhook_shop_address = settings.DEV_DOMAIN + '/app/uninstall_webhook_callback/'
+	webhook_shop_address = settings.APP_DOMAIN + '/app/uninstall_webhook_callback/'
 	with request.user.session:
 		webhook_status = 0
 		webhook_shops = shopify.Webhook.find()
