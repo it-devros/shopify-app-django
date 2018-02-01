@@ -30,6 +30,9 @@ How to set up
 	python manage.py runserver
 
 
+it is complemete.
+
+
 
 
 
