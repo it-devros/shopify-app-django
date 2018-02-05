@@ -37,8 +37,10 @@ var CremaScript = (function () {
         if (allElements[i].getAttribute(attribute) !== null)
         {
           // Element exists with attribute. Add to array.
-
-          console.log("++++++++++++ matched ++++++++++++", allElements[i]);
+          if (allElements[i].attribute[1].value = "description") {
+            console.log("++++++++++++ matched ++++++++++++", allElements[i]);
+          }
+          
           matchingElements.push(allElements[i]);
         }
       }
