@@ -28,7 +28,7 @@ var CremaScript = (function () {
 
     }
 
-    CremaScript.prototype.getAllElementsWithAttribute function (attribute, value)
+    CremaScript.prototype.getAllElementsWithAttribute = function (attribute, value)
     {
       var matchingElements = [];
       var allElements = document.getElementsByTagName('*');
