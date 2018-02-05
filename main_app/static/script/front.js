@@ -25,6 +25,8 @@ var CremaScript = (function () {
             window.localStorage.setItem("load_front", "yes");
         }
 
+        var ok = "this is ok";
+
     }
 
 
