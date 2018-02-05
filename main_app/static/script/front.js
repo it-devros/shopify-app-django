@@ -31,7 +31,7 @@ var CremaScript = (function () {
     CremaScript.prototype.getAllElementsWithAttribute = function (attribute, value)
     {
       var matchingElements = [];
-      var allElements = document.getElementsByTagName('*');
+      var allElements = document.getElementsByTagName('div');
       for (var i = 0, n = allElements.length; i < n; i++)
       {
         if (allElements[i].getAttribute(attribute) !== null)
