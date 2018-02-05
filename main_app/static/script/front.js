@@ -22,7 +22,6 @@ var CremaScript = (function () {
             if (obj) {
                 var str = "<h3 style='color:" + this.Options.font_color + ";font-weight:" + this.Options.font_weight + ";font-size:" + this.Options.font_size + ";'>" + this.Options.content + "&nbsp;&nbsp;&nbsp;&nbsp;" + this.Options.days + " Days" + "&nbsp;&nbsp;" + this.Options.hours + " Hours" + "&nbsp;&nbsp;" + this.Options.mins + " Minutes" + "&nbsp;&nbsp;" + this.Options.secs + " Seconds" + "&nbsp;&nbsp;" + "Left! Hurry Up." + "</h3>";
                 obj[0].insertAdjacentHTML("beforeend", str);
-                obj[1].insertAdjacentHTML("beforeend", str);
             }
             window.localStorage.setItem("load_front", "yes");
         }
