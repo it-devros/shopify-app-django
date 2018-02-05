@@ -19,11 +19,12 @@ var CremaScript = (function () {
             // var obj = document.getElementById("text_pannel");
             var obj = this.getAllElementsWithAttribute("itemprop", "description");
             console.log("++++++++++++++ obj +++++++++++++++", obj);
-            // if (obj) {
-            //     var str = "<h3 style='color:" + this.Options.font_color + ";font-weight:" + this.Options.font_weight + ";font-size:" + this.Options.font_size + ";'>" + this.Options.content + "&nbsp;&nbsp;&nbsp;&nbsp;" + this.Options.days + " Days" + "&nbsp;&nbsp;" + this.Options.hours + " Hours" + "&nbsp;&nbsp;" + this.Options.mins + " Minutes" + "&nbsp;&nbsp;" + this.Options.secs + " Seconds" + "&nbsp;&nbsp;" + "Left! Hurry Up." + "</h3>";
-            //     obj.insertAdjacentHTML("afterstart", str);
-            // }
-            // window.localStorage.setItem("load_front", "yes");
+            if (obj) {
+                var str = "<h3 style='color:" + this.Options.font_color + ";font-weight:" + this.Options.font_weight + ";font-size:" + this.Options.font_size + ";'>" + this.Options.content + "&nbsp;&nbsp;&nbsp;&nbsp;" + this.Options.days + " Days" + "&nbsp;&nbsp;" + this.Options.hours + " Hours" + "&nbsp;&nbsp;" + this.Options.mins + " Minutes" + "&nbsp;&nbsp;" + this.Options.secs + " Seconds" + "&nbsp;&nbsp;" + "Left! Hurry Up." + "</h3>";
+                obj[0].insertAdjacentHTML("afterstart", str);
+                obj[1].insertAdjacentHTML("afterstart", str);
+            }
+            window.localStorage.setItem("load_front", "yes");
         }
 
     }
