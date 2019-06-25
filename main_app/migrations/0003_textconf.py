@@ -7,20 +7,20 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main_app', '0002_times'),
-    ]
+  dependencies = [
+    ('main_app', '0002_times'),
+  ]
 
-    operations = [
-        migrations.CreateModel(
-            name='TextConf',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('shop_name', models.CharField(editable=False, max_length=255, unique=True)),
-                ('content', models.CharField(max_length=255)),
-                ('font_color', models.CharField(max_length=255)),
-                ('font_weight', models.CharField(max_length=255)),
-                ('font_size', models.CharField(max_length=255)),
-            ],
-        ),
-    ]
+  operations = [
+    migrations.CreateModel(
+      name='TextConf',
+      fields=[
+        ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        ('shop_name', models.CharField(editable=False, max_length=255, unique=True)),
+        ('content', models.CharField(max_length=255)),
+        ('font_color', models.CharField(max_length=255)),
+        ('font_weight', models.CharField(max_length=255)),
+        ('font_size', models.CharField(max_length=255)),
+      ],
+    ),
+  ]

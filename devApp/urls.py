@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'login/', include('shopify_auth.urls')),
-    url(r'app/', include('main_app.urls')),
-    url(r'^$', home, name='home')
+  url(r'login/', include('shopify_auth.urls')),
+  url(r'app/', include('main_app.urls')),
+  url(r'^$', home, name='home')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
