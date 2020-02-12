@@ -1,4 +1,4 @@
-Django==1.9
+Django==1.11.28
 python-dotenv==0.1.0
 ShopifyAPI
 gunicorn
